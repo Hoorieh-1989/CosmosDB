@@ -6,7 +6,7 @@
 //var builder = FunctionsApplication.CreateBuilder(args);
 
 //builder.ConfigureFunctionsWebApplication();
-
+//done changes
 //builder.Services
 //    .AddApplicationInsightsTelemetryWorkerService()
 //    .ConfigureFunctionsApplicationInsights();
