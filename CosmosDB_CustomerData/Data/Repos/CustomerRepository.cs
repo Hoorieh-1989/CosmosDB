@@ -73,14 +73,12 @@ namespace CosmosDB_CustomerData.Data.Repos
 
         public async Task UpdateAsync(string id, Customer customer)
         {
-            if (id != customer.id)
-            {
-                throw new ArgumentException("Parameter id måste matcha customer.id");
-            }
-
+            customer.id = id; // tvinga objektet att använda id från URL
             await _container.UpsertItemAsync(customer, new PartitionKey(customer.id));
         }
 
+
+      
 
         public async Task DeleteAsync(string id)
         {
