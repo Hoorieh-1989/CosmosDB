@@ -13,10 +13,16 @@ namespace CosmosDB_CustomerData.Endpoints
             app.MapGet("/customers/search", async (string? name, string? salesperson, ICustomerService service) =>
                 Results.Ok(await service.SearchAsync(name, salesperson)));
 
-           
+
             app.MapPost("/customers", async (Customer customer, ICustomerService service) =>
             {
-                customer.id = Guid.NewGuid().ToString(); 
+                var existingCustomers = await service.GetCustomersAsync();
+                var maxId = existingCustomers
+                    .Select(c => int.TryParse(c.id, out var n) ? n : 0)
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                customer.id = (maxId + 1).ToString();
                 await service.AddCustomerAsync(customer);
                 return Results.Created($"/customers/{customer.id}", customer);
             });
